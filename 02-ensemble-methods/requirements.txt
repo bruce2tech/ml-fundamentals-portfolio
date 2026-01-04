@@ -1,0 +1,19 @@
+# Ensemble Methods - Custom Bagging Implementation
+
+# Core Data Science
+pandas>=1.3.0
+numpy>=1.21.0
+
+# Machine Learning
+scikit-learn>=1.0.0
+
+# Visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Statistics
+scipy>=1.7.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0

@@ -1,0 +1,11 @@
+# Reinforcement Learning - Q-Learning Nim Game AI
+
+# Core Data Science
+numpy>=1.21.0
+
+# Visualization
+matplotlib>=3.4.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0
