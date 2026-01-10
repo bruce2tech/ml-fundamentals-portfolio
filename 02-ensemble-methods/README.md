@@ -221,15 +221,13 @@ Bagging reduces variance by averaging predictions:
 ```
 ensemble-methods-bagging/
 ├── README.md                              # This file
-├── Bruce_Assign6.ipynb                    # Main implementation
+├── ensemble_bagging_methods.ipynb         # Main implementation
 ├── requirements.txt                       # Python dependencies
 ├── .gitignore
-├── data/
-│   └── heart_dataset.csv                  # Heart disease data
 └── results/
-    ├── ensemble_vs_regular_performance.png
-    ├── subsample_ratio_analysis.png
-    └── voting_scheme_comparison.png
+    ├── bagging_effectiveness_across_classifiers.png
+    ├── ensemble_performance_and_advantage.png
+    └── ensemble_vs_regular_performance.png
 ```
 
 ---
