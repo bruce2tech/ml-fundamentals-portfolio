@@ -242,36 +242,55 @@ print(f"CV Accuracy: {cv_scores.mean():.4f} (+/- {cv_scores.std():.4f})")
 ## 📁 Repository Structure
 
 ```
-titanic-survival-prediction/
-├── README.md                      # This file
-├── Bruce_Assign5.ipynb            # Main implementation
-├── requirements.txt               # Python dependencies
+01-feature-engineering/
+├── README.md                          # This file
+├── titanic_feature_engineering.ipynb  # Main implementation
+├── requirements.txt                   # Python dependencies
 ├── .gitignore
-├── data/
-│   ├── train.csv                  # Kaggle training data
-│   ├── test.csv                   # Kaggle test data
-│   └── titanic_survival_predictions_bruce.csv  # Submission file
+├── output/
+│   └── titanic_survival_predictions_bruce.csv  # Kaggle submission
 └── results/
-    ├── feature_importance.png
-    ├── survival_analysis.png
-    └── model_comparison.png
+    ├── model_comparison.png
+    ├── survival_by_engineered_features.png
+    ├── survival_by_key_features.png
+    └── survival_distribution.png
 ```
+
+---
+
+## 📥 Data
+
+**Dataset**: [Kaggle Titanic - Machine Learning from Disaster](https://www.kaggle.com/c/titanic/data)
+
+Download the following files from Kaggle and place them in a `data/` folder:
+- `train.csv` - Training data (891 passengers)
+- `test.csv` - Test data (418 passengers)
+
+> **Note**: Raw datasets are not included in this repository per Kaggle's terms of use. The submission file showing my predictions is included in `output/`.
 
 ---
 
 ## 🚀 Quick Start
 
-### **1. Install Dependencies**
+### **1. Download Data**
+```bash
+# Option 1: Kaggle CLI (requires kaggle.json credentials)
+kaggle competitions download -c titanic
+
+# Option 2: Manual download from https://www.kaggle.com/c/titanic/data
+```
+
+### **2. Install Dependencies**
 ```bash
 pip install pandas numpy scikit-learn xgboost lightgbm matplotlib seaborn
 ```
 
-### **2. Run the Notebook**
+### **3. Run the Notebook**
 ```bash
-jupyter notebook Bruce_Assign5.ipynb
+jupyter notebook titanic_feature_engineering.ipynb
 ```
 
-### **3. Make Predictions**
+### **4. Make Predictions**
 ```python
 # Load trained model
 final_model = LGBMClassifier(
