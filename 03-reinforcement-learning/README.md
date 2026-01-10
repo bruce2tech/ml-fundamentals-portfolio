@@ -30,24 +30,25 @@ A pure reinforcement learning implementation that trains an AI agent to master t
 
 ### **Performance Summary**
 
-| Opponent | Original Q-Learner | **Improved Q-Learner** | Improvement |
-|----------|-------------------|------------------------|-------------|
-| **vs Random (as first)** | 73.8% | **98.7%** | +24.9% |
-| **vs Random (as second)** | 70.1% | **98.3%** | +28.2% |
-| **vs Guru (as first)** | 2.2% | **67.8%** | +65.6% |
-| **vs Guru (as second)** | 0.3% | **5.1%** | +4.8% |
+Results vary due to stochastic training (random Q-table initialization, random starting positions). Expected ranges based on multiple runs:
 
-**Overall vs Random**: **~97.5% average win rate** (consistent across 5 test rounds)
+| Metric | Original Q-Learner | **Improved Q-Learner** | Expected Range |
+|--------|-------------------|------------------------|----------------|
+| **vs Random (Q-learner 1st)** | ~84% | **~97%** | 95-99% |
+| **vs Random (Q-learner 2nd)** | ~83% | **~98%** | 95-99% |
+| **vs Guru (Q-learner 1st)** | ~2% | **~67%** | 60-70% |
+| **vs Guru (Q-learner 2nd)** | ~0% | **~5%** | 2-8% |
+
+**Note**: In all evaluations, the first player listed plays first. For example, "Q-learner vs Random" means Q-learner plays first, Random plays second.
 
 ### **Training Progression**
 
-| Training Games | Win Rate vs Random | Win Rate vs Guru |
-|----------------|-------------------|------------------|
-| 10,000 | 88.3% | 4.3% |
-| 50,000 | 89.4% | 4.8% |
-| 100,000 | 90.3% | 6.4% |
-| 1,000,000 | 94.9% | 14.5% |
-| **10,000,000** | **98.7%** | **67.8%** |
+| Training Games | Win Rate vs Random | Win Rate vs Guru (1st) |
+|----------------|-------------------|------------------------|
+| 10,000 | ~65% | ~4% |
+| 100,000 | ~85% | ~12% |
+| 1,000,000 | ~95% | ~45% |
+| **10,000,000** | **~97%** | **~67%** |
 
 ---
 
@@ -71,7 +72,9 @@ A pure reinforcement learning implementation that trains an AI agent to master t
 #### **1. Epsilon-Greedy Exploration with Decay**
 ```python
 epsilon = 0.3  # Start with high exploration
-epsilon = max(0.05, epsilon * 0.95)  # Decay over time
+# Decay every 500 episodes
+if episode % 500 == 0:
+    epsilon = max(0.05, epsilon * 0.95)
 ```
 **Benefit**: Balances exploration (trying new moves) vs exploitation (using learned strategy)
 
@@ -152,10 +155,14 @@ Where:
 - Guru uses this optimal strategy
 
 **Q-Learner can only win when**:
-1. Starting position favors first player AND Q-learner goes first (~68% when optimal)
+1. Starting position favors first player AND Q-learner goes first (~70% of random starts)
 2. Guru makes rare random move (when nim-sum already = 0)
 
-**This is expected!** The impressive part is achieving 67.8% vs Guru as first player (near-optimal performance learned through experience alone).
+**Expected results**:
+- **vs Guru (Q-learner 1st)**: 60-70% (theoretical max ~70%)
+- **vs Guru (Q-learner 2nd)**: 2-8% (only wins when starting nim-sum = 0)
+
+**This is expected!** The impressive part is achieving ~67% vs Guru as first player—that's **~96% of theoretical optimal** learned through experience alone.
 
 ---
 
@@ -194,22 +201,23 @@ play_games(1000, 'Qlearner_imp', 'Guru')
 
 ### **3. Expected Output**
 ```
-1000 games, Qlearner_imp  987  Random   13  (Win rate: 98.7%)
-1000 games, Qlearner_imp  678  Guru    322  (Win rate: 67.8%)
+1000 games: Q-Improved    970 - 30   Random       (Win rate: 97.0%)
+1000 games: Q-Improved    670 - 330  Guru         (Win rate: 67.0%)
 ```
+**Note**: Results vary between runs. Expect 95-99% vs Random and 60-70% vs Guru.
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-reinforcement-learning-nim-game/
-├── README.md                       # This file
-├── Bruce_Assign9_Improved.ipynb    # Main implementation
-├── requirements.txt                # Python dependencies
+03-reinforcement-learning/
+├── README.md                    # This file
+├── nim_qlearning_rl.ipynb       # Main implementation notebook
+├── requirements.txt             # Python dependencies
 └── results/
-    ├── training_curves.png
-    └── performance_comparison.png
+    ├── q-learning_training_progression.png
+    └── q-learner_performance_comparison.png
 ```
 
 ---
@@ -249,15 +257,20 @@ The notebook includes:
 
 ## 🔍 Performance Analysis
 
-### **Why 97.5% vs Random (Not 100%)?**
-1. **Exploration epsilon** (5%) - Occasionally makes random moves even during testing
-2. **Incomplete coverage** - Some rare positions may not be well-learned
-3. **Q-value ties** - When multiple actions have similar Q-values, random choice
+### **Why ~97% vs Random (Not 100%)?**
+1. **Incomplete Q-table coverage** - Some rare positions may not be well-learned
+2. **Q-value ties** - When multiple actions have similar Q-values, selection may not be optimal
+3. **Random starting positions** - Some positions are inherently harder
 
-### **Why Only 67.8% vs Guru (First Player)?**
+### **Why ~67% vs Guru (Q-learner 1st)?**
 - Theoretical maximum: ~70% (when starting position favors first player)
-- Our result: 67.8% (96.8% of optimal!)
-- Gap due to incomplete Q-table coverage and imperfect exploration
+- Typical result: 60-70% (~96% of optimal!)
+- Gap due to incomplete Q-table coverage and imperfect learning
+
+### **Why Results Vary Between Runs?**
+- **Q-table random initialization** affects early learning trajectories
+- **Training opponent order** (self/random/guru cycling) creates different experiences
+- **Evaluation games** use random starting positions
 
 ---
 
