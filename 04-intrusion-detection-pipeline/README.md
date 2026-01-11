@@ -52,8 +52,12 @@ This project implements a comprehensive machine learning pipeline for network in
 ├── requirements.txt                               # Python dependencies
 ├── Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv  # Dataset (download separately)
 └── results/
-    ├── model_comparison.png
-    └── confusion_matrices.png
+    ├── dbscan_clustering.png
+    ├── feature_correlation_heatmap.png
+    ├── important_features_in_random_forest.png
+    ├── model_performance_comparison.png
+    ├── network_traffic_distribution.png
+    └── pca_cumulative_explained_variance.png
 ```
 
 ## 🚀 Getting Started
