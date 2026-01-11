@@ -9,13 +9,13 @@ A complete end-to-end machine learning pipeline for detecting network intrusions
 
 ## 🎯 Key Results
 
-**XGBoost achieved 97.3% accuracy with 96.8% F1-score**, demonstrating strong potential for real-world network security deployment.
+**All models achieved near-perfect performance**, with Random Forest and XGBoost both exceeding 99.99% accuracy on the DDoS detection task.
 
 | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
 |-------|----------|-----------|--------|----------|---------|
-| **XGBoost** | **97.3%** | 96.9% | 96.7% | **96.8%** | 99.2% |
-| Random Forest | 96.8% | 96.2% | 96.5% | 96.3% | 99.0% |
-| Logistic Regression | 92.1% | 91.5% | 91.8% | 91.6% | 97.1% |
+| **Random Forest** | **100.00%** | 100.00% | 99.99% | **100.00%** | 100.00% |
+| **XGBoost** | **99.99%** | 100.00% | 99.99% | **99.99%** | 100.00% |
+| Logistic Regression | 99.36% | 98.98% | 99.89% | 99.44% | 99.97% |
 
 **Note**: SVM (RBF) was excluded from evaluation due to computational constraints (estimated 2.4 hours vs 2-5 minutes for other models).
 
@@ -117,22 +117,25 @@ jupyter notebook network_intrusion_detection.ipynb
 ## 📈 Key Findings
 
 ### Model Performance
-- **XGBoost outperformed all other models** with 97.3% accuracy
-- **Random Forest** was nearly as accurate but 3-4x faster to train
-- **Logistic Regression** exceeded expectations at 92.1% accuracy
-- **SVM struggled** with high-dimensional data (86.4% accuracy)
+- **Random Forest achieved perfect 100.00% F1-score**, with flawless precision and near-perfect recall
+- **XGBoost closely followed at 99.99% accuracy**, demonstrating excellent generalization
+- **Logistic Regression exceeded expectations at 99.36% accuracy**, proving effective even for complex patterns
+- **All models benefited from careful preprocessing and class balancing**
 
 ### Technical Insights
-1. **Feature engineering** improved accuracy by 4-6%
-2. **SMOTE oversampling** was essential for handling class imbalance
-3. **Port categorization** provided strong discrimination between benign/attack traffic
-4. **10-fold cross-validation** ensured robust performance estimates
+1. **DDoS attacks exhibit highly distinctive patterns**, making them easier to detect than other attack types
+2. **SMOTE oversampling** was essential for handling the class imbalance (43.3% benign, 56.7% DDoS)
+3. **Port categorization and flow features** provided strong discrimination between benign/attack traffic
+4. **10-fold cross-validation** ensured robust performance estimates with minimal variance
 
-### Business Value
-- Reduces manual security workload by 60-70%
-- Decreases incident response time from hours to minutes
-- Catches 97% of attacks vs 70-80% with rule-based systems
-- Potential ROI: $500K - $2M annually for enterprise networks
+### Why Such High Accuracy?
+The near-perfect results reflect the nature of DDoS attacks in this dataset:
+- **Clear traffic volume differences**: DDoS floods create obvious spikes in packet counts
+- **Distinct temporal patterns**: Attack flows have characteristic timing signatures
+- **Homogeneous attack type**: Single attack category (DDoS) vs mixed benign traffic
+- **Well-separated feature space**: Attacks and normal traffic occupy different regions
+
+**Note**: Real-world deployment would likely see lower accuracy with more diverse attack types and evolving adversarial techniques.
 
 ## 🎓 Educational Context
 
