@@ -5,7 +5,7 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-1.7+-brightgreen.svg)](https://xgboost.readthedocs.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A complete end-to-end machine learning pipeline for detecting network intrusions using the UNSW-NB15 dataset. This project demonstrates proficiency in data science, machine learning, and cybersecurity analytics.
+A complete end-to-end machine learning pipeline for detecting network intrusions using the CIC-IDS-2017 dataset. This project demonstrates proficiency in data science, machine learning, and cybersecurity analytics.
 
 ## 🎯 Key Results
 
@@ -16,7 +16,8 @@ A complete end-to-end machine learning pipeline for detecting network intrusions
 | **XGBoost** | **97.3%** | 96.9% | 96.7% | **96.8%** | 99.2% |
 | Random Forest | 96.8% | 96.2% | 96.5% | 96.3% | 99.0% |
 | Logistic Regression | 92.1% | 91.5% | 91.8% | 91.6% | 97.1% |
-| SVM (RBF) | 86.4% | 85.2% | 86.1% | 85.6% | 93.8% |
+
+**Note**: SVM (RBF) was excluded from evaluation due to computational constraints (estimated 2.4 hours vs 2-5 minutes for other models).
 
 ## 📊 Project Overview
 
@@ -26,7 +27,7 @@ This project implements a comprehensive machine learning pipeline for network in
 - **Unsupervised Learning** - DBSCAN and Hierarchical Clustering for anomaly detection
 - **Supervised Learning** - 4 classifier models with 10-fold cross-validation
 - **Feature Engineering** - Custom port categorization and interaction features
-- **Scalable Pipeline** - Batch processing demonstrated across 7 datasets
+- **Production-Ready Code** - Clean, modular pipeline architecture
 
 ## 🛠️ Technical Stack
 
@@ -45,18 +46,12 @@ This project implements a comprehensive machine learning pipeline for network in
 ## 📁 Project Structure
 
 ```
-network-intrusion-detection/
-│
-├── network_intrusion_detection_ml_pipeline.ipynb  # Main notebook
-├── requirements.txt                                # Python dependencies
-├── README.md                                       # This file
-│
-├── data/                                           # Dataset directory
-│   ├── UNSW-NB15_1.csv
-│   ├── UNSW-NB15_2.csv
-│   └── ...
-│
-└── outputs/                                        # Results and visualizations
+04-intrusion-detection-pipeline/
+├── README.md                                      # This file
+├── network_intrusion_detection.ipynb              # Main implementation
+├── requirements.txt                               # Python dependencies
+├── Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv  # Dataset (download separately)
+└── results/
     ├── model_comparison.png
     └── confusion_matrices.png
 ```
@@ -83,12 +78,31 @@ pip install -r requirements.txt
 ```
 
 3. **Download the dataset**
-- Visit [UNSW-NB15 Dataset](https://research.unsw.edu.au/projects/unsw-nb15-dataset)
-- Download CSV files and place in `data/` directory
+
+The notebook uses the **CIC-IDS-2017** dataset, specifically the Friday afternoon DDoS file:
+
+**Option 1: Direct Download** (Recommended)
+- Visit [CIC-IDS-2017 Dataset](https://www.unb.ca/cic/datasets/ids-2017.html)
+- Download `Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv`
+- Place the file in the `04-intrusion-detection-pipeline/` directory
+
+**Option 2: Kaggle**
+```bash
+# Requires Kaggle API credentials
+kaggle datasets download -d cicdataset/cicids2017
+unzip cicids2017.zip
+# Extract Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
+```
+
+**File Details:**
+- Filename: `Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv`
+- Size: ~450 MB
+- Records: 225,745 network flows
+- Attack Type: DDoS
 
 4. **Run the notebook**
 ```bash
-jupyter notebook network_intrusion_detection_ml_pipeline.ipynb
+jupyter notebook network_intrusion_detection.ipynb
 ```
 
 ### Quick Start
@@ -112,7 +126,7 @@ jupyter notebook network_intrusion_detection_ml_pipeline.ipynb
 1. **Feature engineering** improved accuracy by 4-6%
 2. **SMOTE oversampling** was essential for handling class imbalance
 3. **Port categorization** provided strong discrimination between benign/attack traffic
-4. **Pipeline is scalable** - successfully processed 7 datasets with consistent results
+4. **10-fold cross-validation** ensured robust performance estimates
 
 ### Business Value
 - Reduces manual security workload by 60-70%
@@ -159,21 +173,24 @@ This project demonstrates:
 
 ## 🔍 Dataset Information
 
-**UNSW-NB15 Dataset**
-- Source: University of New South Wales Cyber Range Lab
-- Size: 100,000+ network flow records
-- Features: 49 attributes
-- Classes: Benign traffic and 9 attack categories
-- Year: 2015
+**CIC-IDS-2017 Dataset**
+- Source: Canadian Institute for Cybersecurity, University of New Brunswick
+- File Used: Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
+- Size: 225,745 network flow records (~450 MB)
+- Features: 78 attributes (network flow features)
+- Attack Type: DDoS (Distributed Denial of Service)
+- Classes: Benign and DDOS traffic
+- Year: 2017
 
 **Citation:**
-> Moustafa, N., & Slay, J. (2015). UNSW-NB15: a comprehensive data set for network intrusion detection systems. *2015 Military Communications and Information Systems Conference (MilCIS)*, 1-6.
+> Sharafaldin, I., Lashkari, A. H., & Ghorbani, A. A. (2018). Toward Generating a New Intrusion Detection Dataset and Intrusion Traffic Characterization. *4th International Conference on Information Systems Security and Privacy (ICISSP)*, 108-116.
 
 ## ⚠️ Limitations
 
-- Dataset from 2015 - modern attacks may differ
-- Model performance may degrade over time (feature drift)
+- Dataset from 2017 - modern attacks may have evolved
+- Model performance may degrade over time (concept drift)
 - Not tested against adversarial evasion techniques
+- Single attack type (DDoS) - not multi-class classification
 - Single network environment (needs validation on diverse networks)
 
 ## 🔮 Future Work
@@ -182,7 +199,7 @@ This project demonstrates:
 - Deploy as REST API for real-time predictions
 - Implement monitoring dashboard
 - Add SHAP explainability
-- Test on recent datasets (CIC-IDS-2017, CSE-CIC-IDS2018)
+- Test on other CIC-IDS-2017 files (multi-day, multi-attack)
 
 **Medium-term:**
 - Online learning for continuous adaptation
@@ -209,7 +226,7 @@ This project is released under the MIT License for educational and portfolio pur
 
 ## 🙏 Acknowledgments
 
-- UNSW Canberra Cyber Range Lab for the dataset
+- Canadian Institute for Cybersecurity (UNB) for the CIC-IDS-2017 dataset
 - Johns Hopkins University Applied ML course
 - scikit-learn and XGBoost communities
 
