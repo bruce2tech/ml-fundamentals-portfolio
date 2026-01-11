@@ -13,7 +13,7 @@ This project demonstrates the **evolution of deep learning approaches** for imag
 2. **How CNNs solve these problems** through spatial feature learning (Module 14)
 3. **The impact of regularization techniques** on model robustness
 
-**Key Result**: Improved test accuracy from **54% → 80%+** by switching from fully connected to CNN architecture.
+**Key Result**: Improved test accuracy from **~54% → ~85%** by switching from fully connected to CNN architecture with BatchNorm.
 
 ---
 
@@ -58,8 +58,8 @@ Output: 6 classes (softmax)
 #### **Results**:
 | Metric | Without Regularization | With Weight Decay |
 |--------|----------------------|-------------------|
-| **Train Accuracy** | 95.5% | 67.8% |
-| **Test Accuracy** | 54.3% | 54.0% |
+| **Train Accuracy** | ~85-95% | ~65-68% |
+| **Test Accuracy** | ~54-58% | ~55-57% |
 | **Verdict** | 🔴 Severe Overfitting | 🟡 Poor Generalization |
 
 #### **Why It Failed**:
@@ -111,10 +111,10 @@ FC(128→6) + Softmax
 
 | Configuration | Train Acc | Test Acc | Notes |
 |---------------|-----------|----------|-------|
-| **Baseline CNN** | 93% | 54% | Overfitting |
-| **+ Regularization** | 70% | 58% | Better generalization |
-| **+ Batch Normalization** | 75% | 80%+ | Stable training ✓ |
-| **+ Early Stopping** | 75% | 80%+ | Prevents overfit ✓ |
+| **Baseline CNN** | ~87% | ~82% | Good performance |
+| **+ BatchNorm + Dropout** | ~95% | ~85% | Best generalization ✓ |
+
+**Note**: CNN baseline already achieves strong performance (~82%) due to proper architecture. BatchNorm improves convergence speed and adds ~3% test accuracy.
 
 #### **Why It Succeeds**:
 
@@ -146,12 +146,11 @@ FC(128→6) + Softmax
 ### **Accuracy Improvement**
 
 ```
-Fully Connected:  ████████████░░░░░░░░░░░░░░░░░░░░  54%
-CNN (Baseline):   ████████████░░░░░░░░░░░░░░░░░░░░  54%
-CNN + Regularization: ███████████████░░░░░░░░░░░░  58%
-CNN + BatchNorm:  ████████████████████████████░░░░  80%+
+Fully Connected:  ████████████░░░░░░░░░░░░░░░░░░░░  ~54-58%
+CNN (Baseline):   ████████████████████████████░░░░  ~82%
+CNN + BatchNorm:  █████████████████████████████░░░  ~85%
 
-Improvement: +26 percentage points (+48% relative improvement)
+Improvement: ~30 percentage points over FC (+55% relative improvement)
 ```
 
 ### **Confusion Matrix Analysis**
@@ -176,7 +175,7 @@ Improvement: +26 percentage points (+48% relative improvement)
 - Faster convergence
 - Higher learning rates possible
 - Acts as regularization
-- **Result**: +22% test accuracy improvement
+- **Result**: ~3% test accuracy improvement over CNN baseline
 
 ### **2. Dropout (p=0.2)**
 **Purpose**: Prevent co-adaptation of neurons
@@ -264,25 +263,13 @@ Improvement: +26 percentage points (+48% relative improvement)
 ## 📁 Project Structure
 
 ```
-Module_13_14_Combined/
-├── README.md                     # This file
-├── Phase1_FullyConnected/
-│   ├── Bruce_Assign13.ipynb      # Fully connected implementation
-│   ├── results/
-│   │   ├── training_curves.png
-│   │   └── confusion_matrix.png
-│   └── Assignment13_ml.pdf
-├── Phase2_CNN/
-│   ├── Bruce_Assign14.ipynb      # CNN implementation
-│   ├── results/
-│   │   ├── training_curves.png
-│   │   ├── confusion_matrix.png
-│   │   └── architecture_diagram.png
-│   └── Assignment14_ml.pdf
-└── data/
-    └── archive/                  # Intel Image dataset (download from Kaggle)
-        ├── seg_train/
-        └── seg_test/
+05-deep-learning-progression/
+├── README.md                              # This file
+├── deep_learning_image_classification.ipynb  # Combined FC vs CNN implementation
+├── requirements.txt                       # Python dependencies
+└── archive/                               # Intel Image dataset (download from Kaggle)
+    ├── seg_train/
+    └── seg_test/
 ```
 
 ---
@@ -293,25 +280,20 @@ Module_13_14_Combined/
 ```bash
 # Download from Kaggle:
 # https://www.kaggle.com/puneet6060/intel-image-classification
-# Extract to data/archive/
+# Extract to archive/ folder within the project directory
 ```
 
 ### **2. Install Dependencies**
 ```bash
-pip install torch torchvision opencv-python numpy pandas matplotlib seaborn scikit-learn
+pip install torch torchvision numpy matplotlib seaborn scikit-learn
 ```
 
-### **3. Run Phase 1 (Fully Connected)**
+### **3. Run the Notebook**
 ```bash
-cd Phase1_FullyConnected
-jupyter notebook Bruce_Assign13.ipynb
+jupyter notebook deep_learning_image_classification.ipynb
 ```
 
-### **4. Run Phase 2 (CNN)**
-```bash
-cd Phase2_CNN
-jupyter notebook Bruce_Assign14.ipynb
-```
+The notebook compares all approaches (FC, FC+WeightDecay, CNN, CNN+BatchNorm) in a single file.
 
 ---
 
