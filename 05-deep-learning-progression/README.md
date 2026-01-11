@@ -267,9 +267,13 @@ Improvement: ~30 percentage points over FC (+55% relative improvement)
 ├── README.md                              # This file
 ├── deep_learning_image_classification.ipynb  # Combined FC vs CNN implementation
 ├── requirements.txt                       # Python dependencies
-└── archive/                               # Intel Image dataset (download from Kaggle)
-    ├── seg_train/
-    └── seg_test/
+├── .gitignore                             # Excludes dataset from git
+├── archive/                               # Intel Image dataset (download from Kaggle)
+│   ├── seg_train/
+│   └── seg_test/
+└── results/                               # Visualization outputs
+    ├── model_performance_fc_vs_cnn.png
+    └── training_progression_fc_vs_cnn.png
 ```
 
 ---
